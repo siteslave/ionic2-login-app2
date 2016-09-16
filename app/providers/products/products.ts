@@ -12,7 +12,7 @@ export class Products {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
 
-      let url = `http://localhost:8080/products?token=${token}`;
+      let url = `http://192.168.1.48:8080/products?token=${token}`;
       // let url = 'http://localhost:8080/products?token=' + token;
       
       this.http.get(url, options)

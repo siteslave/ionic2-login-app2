@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, ionicBootstrap } from 'ionic-angular';
+import { Platform, ionicBootstrap, AlertController } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { TabsPage } from './pages/tabs/tabs';
 
@@ -13,7 +13,7 @@ export class MyApp {
 
   public rootPage: any;
 
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform, private alertCtrl: AlertController) {
     this.rootPage = LoginPage;
 
     platform.ready().then(() => {
@@ -21,6 +21,26 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
     });
+
+    platform.registerBackButtonAction(() => {
+      let confirm = this.alertCtrl.create({
+        title: 'Exit app?',
+        message: 'Are you sure?',
+        buttons: [
+          {
+            text: 'Exit',
+            handler: () => { platform.exitApp(); }
+          },
+          {
+            text: 'Cancel',
+            handler: () => { }
+          }
+        ]
+      });
+      confirm.present();
+
+    });
+
   }
 }
 

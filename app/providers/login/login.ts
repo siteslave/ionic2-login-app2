@@ -13,7 +13,7 @@ export class Login {
       let options = new RequestOptions({ headers: headers });
       let body = { username: username, password: password };
 
-      let url = `http://localhost:8080/login`;
+      let url = `http://192.168.1.48:8080/login`;
       
       this.http.post(url, body, options)
         .map(res => res.json())
