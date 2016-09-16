@@ -6,8 +6,7 @@ import {TabsPage} from '../tabs/tabs'
 
 interface HTTPResult {
   ok: boolean,
-  fullname?: string,
-  username?: string,
+  token?: string,
   msg?: string
 }
 
@@ -24,9 +23,9 @@ export class LoginPage {
     private loginProvider: Login) {
     this.localStorage = new Storage(LocalStorage)
     
-    this.localStorage.get('fullname')
-      .then(fullname => {
-        if (fullname) {
+    this.localStorage.get('token')
+      .then(token => {
+        if (token) {
           this.navCtrl.setRoot(TabsPage)
         }
       });
@@ -37,7 +36,7 @@ export class LoginPage {
       .then(res => {
         let result = <HTTPResult>res;
         if (result.ok) {
-          this.localStorage.set('fullname', result.fullname)
+          this.localStorage.set('token', result.token)
           this.navCtrl.setRoot(TabsPage)
         } else {
           alert(result.msg)
