@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Storage, LocalStorage } from 'ionic-angular';
 
 import {Login} from '../../providers/login/login'
 import {TabsPage} from '../tabs/tabs'
@@ -18,9 +18,18 @@ interface HTTPResult {
 export class LoginPage {
   username: string
   password: string
+  localStorage: LocalStorage
+
   constructor(private navCtrl: NavController,
     private loginProvider: Login) {
-
+    this.localStorage = new Storage(LocalStorage)
+    
+    this.localStorage.get('fullname')
+      .then(fullname => {
+        if (fullname) {
+          this.navCtrl.setRoot(TabsPage)
+        }
+      });
   }
 
   login() {
@@ -28,6 +37,7 @@ export class LoginPage {
       .then(res => {
         let result = <HTTPResult>res;
         if (result.ok) {
+          this.localStorage.set('fullname', result.fullname)
           this.navCtrl.setRoot(TabsPage)
         } else {
           alert(result.msg)
