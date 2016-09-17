@@ -79,6 +79,22 @@ export class Api {
         });
     });
   }
+  
+  getMap(url, token) {
+    return new Promise((resolve, reject) => {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      
+      let _url = `${url}/api/map?token=$token{}`;
+      this.http.get(_url, options)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err)
+        });
+    });
+  }
 
 }
 

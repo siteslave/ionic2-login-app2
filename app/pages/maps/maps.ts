@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, Geolocation} from 'ionic-native'
+import {GoogleMap, GoogleMapsEvent, GoogleMapsMarker, GoogleMapsLatLng, GoogleMapsMarkerOptions, Geolocation} from 'ionic-native'
 
 @Component({
   templateUrl: 'build/pages/maps/maps.html',
@@ -8,9 +8,25 @@ import {GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, Geolocation} from 'ionic-n
 export class MapsPage implements OnInit {
   map: GoogleMap
   latLng: GoogleMapsLatLng
-
+  allMarkers: GoogleMapsMarker[]
+  
   constructor(private navCtrl: NavController) {
 
+  }
+
+  createMarker(title, latLng: GoogleMapsLatLng) {
+    let _title = title || 'Your location';
+    let markerOptions: GoogleMapsMarkerOptions = {
+      position: latLng,
+      title: _title,
+      draggable: true
+    }
+
+    this.map.addMarker(markerOptions)
+      .then((marker: GoogleMapsMarker) => {
+        // this.mapsMarker = marker
+        // marker.showInfoWindow();
+      });
   }
 
   ngOnInit() {
@@ -37,7 +53,32 @@ export class MapsPage implements OnInit {
           this.map.setCenter(this.latLng);
         }, err => {
           console.log(err)
-        });
+          });
+        
+
+
+        // create markers 
+        let markers: GoogleMapsLatLng[]
+        markers = [];
+
+        let marker1 = new GoogleMapsLatLng(15.408987, 104.510826)
+        let marker2 = new GoogleMapsLatLng(15.311723, 104.421262)
+        let marker3 = new GoogleMapsLatLng(15.895975, 105.111973)
+
+        markers.push(marker1)
+        markers.push(marker2)
+        markers.push(marker3)
+
+        markers.forEach(v => {
+          let markerOptions: GoogleMapsMarkerOptions = {
+            position: v,
+            title: null,
+            draggable: true
+          }
+
+          this.map.addMarker(markerOptions)
+            .then((marker: GoogleMapsMarker) => {});
+        })
         
       });
 
