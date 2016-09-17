@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar primary>
     <ion-title>Home</ion-title>
     <ion-buttons end>
       <button (click)="logout()">
@@ -12,6 +12,11 @@
 <ion-content class="home">
   <ion-searchbar [(ngModel)]="query" (ionInput)="search($event)"></ion-searchbar>
   <ion-list>
+    <ion-item>
+      <ion-label>Start Time</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateServ" (ionChange)="dateFilter()">
+      </ion-datetime>
+    </ion-item>
     <button ion-item *ngFor="let person of people">
       {{ person.NAME }} {{ person.LNAME }}
     </button>
