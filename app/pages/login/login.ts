@@ -3,6 +3,7 @@ import { NavController, Storage, LocalStorage } from 'ionic-angular';
 
 import {Login} from '../../providers/login/login'
 import {TabsPage} from '../tabs/tabs'
+import {Configure} from '../../providers/configure/configure'
 
 interface HTTPResult {
   ok: boolean,
@@ -12,17 +13,19 @@ interface HTTPResult {
 
 @Component({
   templateUrl: 'build/pages/login/login.html',
-  providers: [Login]
+  providers: [Login, Configure]
 })
 export class LoginPage {
   username: string
   password: string
   localStorage: LocalStorage
+  url: string
 
   constructor(private navCtrl: NavController,
-    private loginProvider: Login) {
+    private loginProvider: Login, private configure: Configure) {
     this.localStorage = new Storage(LocalStorage)
-    
+    this.url = this.configure.getUrl()
+
     this.localStorage.get('token')
       .then(token => {
         if (token) {
@@ -32,7 +35,7 @@ export class LoginPage {
   }
 
   login() {
-    this.loginProvider.doLogin(this.username, this.password)
+    this.loginProvider.doLogin(this.url, this.username, this.password)
       .then(res => {
         let result = <HTTPResult>res;
         if (result.ok) {
