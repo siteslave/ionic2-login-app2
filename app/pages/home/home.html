@@ -14,10 +14,14 @@
   <ion-list>
     <ion-item>
       <ion-label>Start Time</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateServ" (ionChange)="dateFilter()">
+      <ion-datetime cancelText="ยกเลิก" doneText="ตกลง" displayFormat="DD/MM/YYYY" [(ngModel)]="dateServ" (ionChange)="dateFilter()">
       </ion-datetime>
     </ion-item>
-    <button ion-item *ngFor="let person of people">
+    <button ion-item *ngFor="let person of people" (click)="goEmr(person)">
+      <ion-icon *ngIf="person.SEX=='1'" name="man" large primary item-left>
+      </ion-icon>
+      <ion-icon *ngIf="person.SEX=='2'" name="woman" large secondary item-left>
+      </ion-icon>
       {{ person.NAME }} {{ person.LNAME }}
     </button>
   </ion-list>

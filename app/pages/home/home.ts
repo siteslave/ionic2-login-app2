@@ -5,6 +5,8 @@ import {LoginPage} from '../login/login'
 import {Api} from '../../providers/api/api'
 import {Configure} from '../../providers/configure/configure'
 
+import {EmrPage} from '../emr/emr'
+
 import * as moment from 'moment'
 
 interface HTTPResult {
@@ -87,6 +89,11 @@ export class HomePage implements OnInit {
       });
     }
   }
+
+  goEmr(person: Object) {
+    this.navCtrl.push(EmrPage, {data: person}) // HOSPCODE, PID, NAME, LNAME
+  }
+
 
   logout() {
     this.localStorage.remove('token')
