@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, App, LocalStorage, Storage } from 'ionic-angular';
 
 import {LoginPage} from '../login/login'
-import {Products} from '../../providers/products/products'
+import {Api} from '../../providers/api/api'
 import {Configure} from '../../providers/configure/configure'
 
 interface HTTPResult {
@@ -13,16 +13,17 @@ interface HTTPResult {
 
 @Component({
   templateUrl: 'build/pages/home/home.html',
-  providers: [Products, Configure]
+  providers: [Api, Configure]
 })
 export class HomePage implements OnInit {
 
   localStorage: LocalStorage
-  products: Array<Object>
+  people: Array<Object>
   url: string
+  query: string
 
   constructor(public navCtrl: NavController,
-    private app: App, private productProvider: Products, private configure: Configure) {
+    private app: App, private apiProvider: Api, private configure: Configure) {
     this.localStorage = new Storage(LocalStorage)
     this.url = this.configure.getUrl()
   }
@@ -30,15 +31,31 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.localStorage.get('token')
       .then(token => {
-        this.productProvider.getList(this.url, token)
+        this.apiProvider.getList(this.url, token)
           .then((res) => {
             let result = <HTTPResult>res;
-            this.products = result.rows;
+            this.people = result.rows;
           }, err => {
             console.log(err)
           });
       });
   }  
+
+  search(event: any) {
+    if (this.query.length >= 2) {
+      // search
+      this.localStorage.get('token')
+      .then(token => {
+        this.apiProvider.search(this.url, this.query, token)
+          .then((res) => {
+            let result = <HTTPResult>res;
+            this.people = result.rows;
+          }, err => {
+            console.log(err)
+          });
+      });
+    }
+  }
 
   logout() {
     this.localStorage.remove('token')

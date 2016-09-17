@@ -13,8 +13,6 @@ export class Products {
       let options = new RequestOptions({ headers: headers });
 
       let _url = `${url}/products?token=${token}`;
-      // let url = 'http://localhost:8080/products?token=' + token;
-      
       this.http.get(_url, options)
         .map(res => res.json())
         .subscribe(data => {

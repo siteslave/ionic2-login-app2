@@ -9,10 +9,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="home">
+<ion-content class="home">
+  <ion-searchbar [(ngModel)]="query" (ionInput)="search($event)"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let product of products">
-      {{ product.name }}
-    </ion-item>
+    <button ion-item *ngFor="let person of people">
+      {{ person.NAME }} {{ person.LNAME }}
+    </button>
   </ion-list>
 </ion-content>

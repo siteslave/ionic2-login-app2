@@ -8,11 +8,11 @@ export class Login {
 
   constructor(private http: Http) { }
   
-  doLogin(url, params) {
+  doLogin(url, username, password) {
     return new Promise((resolve, reject) => {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      let body = { params: params };
+      let body = { username: username, password: password };
 
       let _url = `${url}/login`;
       
