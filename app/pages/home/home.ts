@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, App, LoadingController, LocalStorage, Storage } from 'ionic-angular';
-import {SpinnerDialog} from 'ionic-native'
+import {SpinnerDialog, DatePicker} from 'ionic-native'
 import {LoginPage} from '../login/login'
 import {Api} from '../../providers/api/api'
 import {Configure} from '../../providers/configure/configure'
@@ -41,8 +41,10 @@ export class HomePage implements OnInit {
     this.url = this.configure.getUrl()
   }
 
-  dateFilter() {
+  dateFilter(date) {
     SpinnerDialog.show('Loading', 'Please wait...')
+    this.dateServ = moment(date).format('YYYY-MM-DD')
+    
     this.localStorage.get('token')
       .then(token => {
         this.apiProvider.getList(this.url, token, this.dateServ)
@@ -55,6 +57,15 @@ export class HomePage implements OnInit {
           });
       });
   } 
+
+  showDatePicker() {
+    DatePicker.show({
+      date: new Date(),
+      mode: 'date'
+    }).then(date => { 
+      this.dateFilter(date)
+    })
+  }
   ngOnInit() {
 
     this.dateServ = moment().format('YYYY-MM-DD');

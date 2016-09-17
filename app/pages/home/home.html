@@ -12,11 +12,15 @@
 <ion-content class="home">
   <ion-searchbar [(ngModel)]="query" (ionInput)="search($event)"></ion-searchbar>
   <ion-list>
-    <ion-item>
+    <!--<ion-item>
       <ion-label>Start Time</ion-label>
       <ion-datetime cancelText="ยกเลิก" doneText="ตกลง" displayFormat="DD/MM/YYYY" [(ngModel)]="dateServ" (ionChange)="dateFilter()">
       </ion-datetime>
-    </ion-item>
+    </ion-item>-->
+    <button ion-item (click)="showDatePicker()">
+      <ion-icon name="calendar" primary item-right></ion-icon>
+      {{ dateServ }}
+    </button>
     <button ion-item *ngFor="let person of people" (click)="goEmr(person)">
       <ion-icon *ngIf="person.SEX=='1'" name="man" large primary item-left>
       </ion-icon>
