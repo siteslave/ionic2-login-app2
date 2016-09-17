@@ -59,7 +59,7 @@ export class HomePage implements OnInit {
 
     this.dateServ = moment().format('YYYY-MM-DD');
     
-    SpinnerDialog.show('Loading', 'Please wait...')
+    SpinnerDialog.show(null, 'Please wait...')
     
     this.localStorage.get('token')
       .then(token => {

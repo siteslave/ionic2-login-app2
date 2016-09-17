@@ -6,6 +6,7 @@ import * as moment from 'moment'
 
 import {Api} from '../../providers/api/api'
 import {Configure} from '../../providers/configure/configure'
+import {EmrDetailPage} from '../emr-detail/emr-detail'
 
 interface HTTPResult {
   ok: boolean,
@@ -17,7 +18,8 @@ interface Person {
   HOSPCODE: string,
   PID: string,
   NAME: string,
-  LNAME: string
+  LNAME: string,
+  DATE_SERV: string
 }
 
 interface RowData {
@@ -42,6 +44,13 @@ export class EmrPage implements OnInit {
     this.person = <Person>this.navParams.get('data');
     this.localStorage = new Storage(LocalStorage)
     this.url = this.configure.getUrl()
+  }
+
+  goEmrDetail() {
+    let hpid = `${this.person.HOSPCODE}${this.person.PID}`;
+    let dateServ = this.person.DATE_SERV;
+
+    this.navCtrl.push(EmrDetailPage, { hpid: hpid, dateServ: dateServ });
   }
 
   ngOnInit() {

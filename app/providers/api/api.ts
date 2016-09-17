@@ -61,6 +61,24 @@ export class Api {
         });
     });
   }
+  
+  getEmrDetail(url, token, hpid, dateServ) {
+    return new Promise((resolve, reject) => {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+
+      let body = { token: token, hpid: hpid, dateServ: dateServ };
+      
+      let _url = `${url}/api/emr-detail`;
+      this.http.post(_url, body, options)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err)
+        });
+    });
+  }
 
 }
 

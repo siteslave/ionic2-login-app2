@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let v of visit" (click)="goEmr(person)">
+    <button ion-item *ngFor="let v of visit" (click)="goEmrDetail()">
       <h2>{{ v.date_serv }}</h2>
       <p>{{ v.hoscode }} {{ v.hosname }}</p>
     </button>

@@ -1,13 +1,25 @@
 
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar primary>
     <ion-title>ข้อมูลการรับบริการ</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <h2>วันที่ {{ date_serv }}</h2>
+      <p>{{ hosname }}</p>
+    </ion-item>
+    <ion-item>
+      <h2>วินิจฉัย {{ diagcode }}</h2>
+      <p>{{ diagtname }}</p>
+    </ion-item>
+    <ion-item>
+      <h2>{{ address }}</h2>
+    </ion-item>
+  </ion-list>
 </ion-content>
