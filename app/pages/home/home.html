@@ -18,10 +18,9 @@
       </ion-datetime>
     </ion-item>
     <button ion-item *ngFor="let person of people" (click)="goEmr(person)">
-      <ion-icon *ngIf="person.SEX=='1'" name="man" large primary item-left>
-      </ion-icon>
-      <ion-icon *ngIf="person.SEX=='2'" name="woman" large secondary item-left>
-      </ion-icon>
+      <ion-avatar item-left>
+        <img [src]="myImg" *ngIf="person.SEX=='1'">
+      </ion-avatar>
       {{ person.NAME }} {{ person.LNAME }}
     </button>
   </ion-list>

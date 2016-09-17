@@ -55,7 +55,7 @@ export class EmrPage implements OnInit {
 
   ngOnInit() {
     let hpid = `${this.person.HOSPCODE}${this.person.PID}`;
-    SpinnerDialog.show('Loading', 'Please wait...');
+    SpinnerDialog.show(null, 'Please wait...');
     
     this.localStorage.get('token')
       .then(token => {
