@@ -11,9 +11,6 @@ export class Configure {
   getUrl() {
     return 'http://localhost:8080'
   }
-
-  getMasterkey() {
-    return '1234567890'
-  }
+  
 }
 
