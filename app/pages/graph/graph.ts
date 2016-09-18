@@ -7,10 +7,21 @@ import {Api} from '../../providers/api/api'
 import {Configure} from '../../providers/configure/configure'
 
 interface IcdData {
-  diagcode?: string,
-  diagtname?: string,
-  hosname?: string,
+  diagcode: string,
+  diagtname: string,
   total: number
+}
+
+interface HospitalData {
+  hosname: string,
+  hoscode?: string,
+  total: number
+}
+
+interface HTTPResultHospital {
+  ok: boolean,
+  rows?: Array<HospitalData>,
+  msg?: string
 }
 
 interface HTTPResult {
@@ -31,7 +42,7 @@ export class GraphPage implements OnInit {
   localStorage: LocalStorage
   url: string
   icds: Array<IcdData>
-  hospitals: Array<IcdData>
+  hospitals: Array<HospitalData>
 
   constructor(private navCtrl: NavController, private apiProvider: Api, private configure: Configure) {
 
@@ -52,7 +63,13 @@ export class GraphPage implements OnInit {
       xAxis: {
         categories: categories
       },
+      yAxis: {
+        title: {
+          text: 'จำนวนคน'
+        }
+      },
       series: [{
+        name: 'โรค',
         data: data,
       }],
       credits: false
@@ -64,10 +81,16 @@ export class GraphPage implements OnInit {
     this.options2 = {
       chart: {type: 'column'},
       title: { text: '10 อันดับหน่วยบริการ' },
+      yAxis: {
+        title: {
+          text: 'จำนวนคน'
+        }
+      },
       xAxis: {
         categories: categories
       },
       series: [{
+        name: 'หน่วยบริการ',
         data: data,
       }],
       credits: false
@@ -95,12 +118,12 @@ export class GraphPage implements OnInit {
             return this.apiProvider.getTopHospital(this.url, token);
           })
           .then(res => {
-            let results = <HTTPResult>res;
-            this.icds = results.rows
+            let results = <HTTPResultHospital>res;
+            this.hospitals = results.rows
             let categories: string[] = [];
             let data: number[] = []
 
-            this.icds.forEach(v => {
+            this.hospitals.forEach(v => {
               categories.push(v.hosname)
               data.push(v.total)
             });
