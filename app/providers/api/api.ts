@@ -97,6 +97,24 @@ export class Api {
         });
     });
   }
+  
+  getTopHospital(url, token) {
+    return new Promise((resolve, reject) => {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+
+      let body = { token: token };
+      
+      let _url = `${url}/api/top-hospital`;
+      this.http.post(_url, body, options)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err)
+        });
+    });
+  }
 
 }
 
