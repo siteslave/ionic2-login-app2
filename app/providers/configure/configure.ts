@@ -9,7 +9,7 @@ export class Configure {
   constructor(private http: Http) {}
 
   getUrl() {
-    return 'http://localhost:8080'
+    return 'http://192.168.43.76:8080'
   }
   
 }

@@ -25,6 +25,24 @@ export class Login {
         });
     });
   }
+  
+  registerDevice(url, token, username, deviceToken) {
+    return new Promise((resolve, reject) => {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      let body = { token: token, username: username, deviceToken: deviceToken };
+
+      let _url = `${url}/api/register-device`;
+      
+      this.http.post(_url, body, options)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err)
+        });
+    });
+  }
 
 }
 

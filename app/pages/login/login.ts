@@ -7,6 +7,8 @@ import {Login} from '../../providers/login/login'
 import {TabsPage} from '../tabs/tabs'
 import {Configure} from '../../providers/configure/configure'
 
+import {Api} from '../../providers/api/api'
+
 interface HTTPResult {
   ok: boolean,
   token?: string,
@@ -15,7 +17,7 @@ interface HTTPResult {
 
 @Component({
   templateUrl: 'build/pages/login/login.html',
-  providers: [Login, Configure]
+  providers: [Login, Configure, Api]
 })
 export class LoginPage implements OnInit {
   username: string
@@ -24,7 +26,7 @@ export class LoginPage implements OnInit {
   url: string
 
   constructor(private navCtrl: NavController,
-    private loginProvider: Login, private configure: Configure) {
+    private loginProvider: Login, private configure: Configure, private apiProvider: Api) {
     this.localStorage = new Storage(LocalStorage)
     this.url = this.configure.getUrl()
 
@@ -41,21 +43,7 @@ export class LoginPage implements OnInit {
   }
 
   registerPush() {
-    var push = Push.init({
-      android: {
-        senderID: '896674945440'
-      },
-      ios: {
-        alert: 'true',
-        badge: true,
-        sound: 'false'
-      },
-      windows: {}
-    });
 
-    push.on('registration', res => {
-      console.log(res)
-    });
 
   }
 
@@ -64,8 +52,30 @@ export class LoginPage implements OnInit {
       .then(res => {
         let result = <HTTPResult>res;
         if (result.ok) {
-          this.localStorage.set('token', result.token)
-          this.navCtrl.setRoot(TabsPage)
+
+          var push = Push.init({
+            android: {
+              senderID: '896674945440'
+            },
+            ios: {
+              alert: 'true',
+              badge: true,
+              sound: 'false'
+            },
+            windows: {}
+          });
+
+          push.on('registration', res => {
+            let deviceToken = res.registrationId
+            this.localStorage.set('token', result.token)
+            this.loginProvider.registerDevice(this.url, result.token, this.username, deviceToken)
+              .then(() => {
+                 this.navCtrl.setRoot(TabsPage);
+              }, err => {
+                alert ('connection error!')
+              });
+          });
+          
         } else {
           alert(result.msg)
         }
