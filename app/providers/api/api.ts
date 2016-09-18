@@ -115,6 +115,38 @@ export class Api {
         });
     });
   }
+  
+  getUserList(url) {
+    return new Promise((resolve, reject) => {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      
+      let _url = `${url}/api/users-list`;
+      this.http.get(_url, options)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err)
+        });
+    });
+  }
+  
+  sendMessage(url, username) {
+    return new Promise((resolve, reject) => {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      let body = {username: username}
+      let _url = `${url}/api/send-notify`;
+      this.http.post(_url, body, options)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, err => {
+          reject(err)
+        });
+    });
+  }
 
 }
 

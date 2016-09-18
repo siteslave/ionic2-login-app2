@@ -17,6 +17,9 @@
       <ion-datetime cancelText="ยกเลิก" doneText="ตกลง" displayFormat="DD/MM/YYYY" [(ngModel)]="dateServ" (ionChange)="dateFilter()">
       </ion-datetime>
     </ion-item>
+    <button ion-item *ngFor="let user of usersList" (click)="sendMessage(user.username)">
+      {{ user.username }}
+    </button>
     <button ion-item *ngFor="let person of people" (click)="goEmr(person)">
       <ion-avatar item-left>
         <img [src]="myImg" *ngIf="person.SEX=='1'">

@@ -27,6 +27,7 @@ export class HomePage implements OnInit {
   query: string
   dateServ: any
   myImg: string
+  usersList: Array<Object>
   
   constructor(public navCtrl: NavController,
     private app: App, private apiProvider: Api,
@@ -51,12 +52,28 @@ export class HomePage implements OnInit {
           });
       });
   } 
+
+  sendMessage(username) {
+    this.apiProvider.sendMessage(this.url, username)
+      .then(() => {
+        alert('Success')
+      }, err => {
+        alert(err)
+      });
+  }
+
   ngOnInit() {
 
     this.dateServ = moment().format('YYYY-MM-DD');
     
     SpinnerDialog.show(null, 'Please wait...')
     
+    this.apiProvider.getUserList(this.url)
+      .then(res => {
+        let results = <HTTPResult>res;
+        this.usersList = results.rows;
+    })
+
     this.localStorage.get('token')
       .then(token => {
         this.apiProvider.getList(this.url, token, this.dateServ)
