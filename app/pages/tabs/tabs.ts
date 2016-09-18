@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HomePage } from '../home/home';
 import { AboutPage } from '../about/about';
 import { ContactPage } from '../contact/contact';
+import { GraphPage } from '../graph/graph';
 
 import {MapsPage} from '../maps/maps'
 
@@ -14,6 +15,7 @@ export class TabsPage {
   public tab2Root: any;
   public tab3Root: any;
   public tab4Root: any;
+  public tab5Root: any;
 
   constructor() {
     // this tells the tabs component which Pages
@@ -22,5 +24,6 @@ export class TabsPage {
     this.tab2Root = MapsPage;
     this.tab3Root = AboutPage;
     this.tab4Root = ContactPage;
+    this.tab5Root = GraphPage;
   }
 }
