@@ -3,8 +3,17 @@
     <ion-title>
       About
     </ion-title>
+    <ion-buttons end>
+      <button (click)="takePicture()">
+        <ion-icon name="camera"></ion-icon>
+      </button>
+      <button (click)="getPicture()">
+        <ion-icon name="folder-open"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding class="about">
+  <img [src]="img">
 </ion-content>
