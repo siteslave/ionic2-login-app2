@@ -1,32 +1,46 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { NavController, LocalStorage, Storage } from 'ionic-angular';
 
 import {CHART_DIRECTIVES} from 'angular2-highcharts'
 
+import {Api} from '../../providers/api/api'
+import {Configure} from '../../providers/configure/configure'
+
+interface IcdData {
+  diagcode: string,
+  diagtname: string,
+  total: number
+}
+
+interface HTTPResult {
+  ok: boolean,
+  rows?: Array<IcdData>,
+  msg?: string
+}
+
 @Component({
   templateUrl: 'build/pages/graph/graph.html',
-  directives: [CHART_DIRECTIVES]
+  directives: [CHART_DIRECTIVES],
+  providers: [Api, Configure]
 })
-export class GraphPage {
+export class GraphPage implements OnInit {
   options: Object
   options2: Object
   slideOptions: Object
+  localStorage: LocalStorage
+  url: string
+  icds: Array<IcdData>
 
-  constructor(private navCtrl: NavController) {
+  constructor(private navCtrl: NavController, private apiProvider: Api, private configure: Configure) {
+
+    this.localStorage = new Storage(LocalStorage);    
+    this.url = this.configure.getUrl()
 
     this.slideOptions = {
       loop: true,
       pager: true
     }
 
-    this.options = {
-      chart: {type: 'line'},
-      title: { text: 'simple chart' },
-      series: [{
-        data: [29.9, 71.5, 106.4, 129.2],
-      }],
-      credits: false
-    };
 
     this.options2 = {
       chart: {
@@ -82,6 +96,46 @@ export class GraphPage {
           stack: 'female'
         }]
     };
+
   }
+
+  createGraphTopIcd(categories, data) {
+    this.options = {
+      chart: {type: 'column'},
+      title: { text: '10 อันดับโรค' },
+      xAxis: {
+        categories: categories
+      },
+      series: [{
+        data: data,
+      }],
+      credits: false
+    };
+  }
+  
+  ngOnInit() {
+
+    this.localStorage.get('token')
+      .then(token => {
+        this.apiProvider.getTopTen(this.url, token)
+          .then(res => {
+            let results = <HTTPResult>res;
+            this.icds = results.rows
+            let categories: string[] = [];
+            let data: number[] = []
+
+            this.icds.forEach(v => {
+              categories.push(v.diagcode)
+              data.push(v.total)
+            });
+
+            this.createGraphTopIcd(categories, data)            
+
+          }, err => {
+          
+          });
+      });
+  }
+
 
 }
