@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {GoogleMap, GoogleMapsEvent, GoogleMapsMarker, GoogleMapsLatLng, GoogleMapsMarkerOptions, Geolocation} from 'ionic-native'
+import {GoogleMap, GoogleMapsEvent, GoogleMapsMarker,
+  GoogleMapsLatLng, GoogleMapsMarkerOptions,
+  Geolocation, LaunchNavigator, LaunchNavigatorOptions} from 'ionic-native'
 
 @Component({
   templateUrl: 'build/pages/maps/maps.html',
@@ -9,6 +11,8 @@ export class MapsPage implements OnInit {
   map: GoogleMap
   latLng: GoogleMapsLatLng
   allMarkers: GoogleMapsMarker[]
+  lat: number
+  lng: number
   
   constructor(private navCtrl: NavController) {
 
@@ -29,6 +33,28 @@ export class MapsPage implements OnInit {
       });
   }
 
+
+  go() {
+    let latLng = new GoogleMapsLatLng(15.408987, 104.510826)
+    this.createMarker('นายทดสอบ เล่นๆ', latLng);
+    this.map.setZoom(18)
+    this.map.setCenter(latLng);
+  }  
+
+  getDirection() {
+    let start = `${this.lat}, ${this.lng}`
+    let end = '15.408987, 104.510826'
+    let options: LaunchNavigatorOptions = {
+      start: start
+    };
+
+    LaunchNavigator.navigate(end, options)
+      .then(
+        success => console.log('Launched navigator'),
+        error => console.log('Error launching navigator', error)
+    );
+    
+  }
   ngOnInit() {
     GoogleMap.isAvailable().then(() => {
       this.map = new GoogleMap('map', {
@@ -49,6 +75,8 @@ export class MapsPage implements OnInit {
 
         Geolocation.getCurrentPosition().then((resp) => {
           console.log(resp)
+          this.lat = resp.coords.latitude;
+          this.lng = resp.coords.longitude;
           this.latLng = new GoogleMapsLatLng(resp.coords.latitude, resp.coords.longitude);
           this.map.setCenter(this.latLng);
         }, err => {
@@ -58,18 +86,20 @@ export class MapsPage implements OnInit {
 
 
         // create markers 
-        let markers: GoogleMapsLatLng[]
-        markers = [];
+        /*
+        let latLngs: GoogleMapsLatLng[]
+        latLngs = [];
 
         let marker1 = new GoogleMapsLatLng(15.408987, 104.510826)
         let marker2 = new GoogleMapsLatLng(15.311723, 104.421262)
         let marker3 = new GoogleMapsLatLng(15.895975, 105.111973)
 
-        markers.push(marker1)
-        markers.push(marker2)
-        markers.push(marker3)
+        latLngs.push(marker1)
+        latLngs.push(marker2)
+        latLngs.push(marker3)
+        this.allMarkers = [];
 
-        markers.forEach(v => {
+        latLngs.forEach(v => {
           let markerOptions: GoogleMapsMarkerOptions = {
             position: v,
             title: null,
@@ -77,8 +107,12 @@ export class MapsPage implements OnInit {
           }
 
           this.map.addMarker(markerOptions)
-            .then((marker: GoogleMapsMarker) => {});
+            .then((marker: GoogleMapsMarker) => {
+              this.allMarkers.push(marker)
+            });
         })
+
+        */
         
       });
 

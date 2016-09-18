@@ -1,13 +1,53 @@
 
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Maps</ion-title>
-  </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [type]="text"
+      [(ngModel)]="queryCid">
+    </ion-searchbar>
+    <ion-buttons end>
+      <button>
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button>
+        <ion-icon name="arrow-dropdown-outline"></ion-icon>
+      </button>
+      <button>
+        <ion-icon name="arrow-dropup-outline"></ion-icon>
+      </button>
+      <button>
+        <ion-icon name="locate"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
-
-
 <ion-content>
-  <div id="map" style="width:100%;height:100%"></div>
+
+  <div id="map" style="width:100%;height:100%">
+    <ion-list>
+
+<ion-item-sliding>
+    <ion-item>
+      <h2>สถิตย์ เรียนพิศ</h2>
+    </ion-item>
+    <ion-item-options side="right">
+      <button primary (click)="go()">
+        <ion-icon name="map"></ion-icon>
+        ไปบ้าน
+      </button>
+      <button (click)="getDirection()">
+        <ion-icon name="map"></ion-icon>
+        ขอเส้นทาง
+      </button>
+      <button secondary>
+        <ion-icon name="create"></ion-icon>
+        บันทึก
+      </button>
+    </ion-item-options>
+  </ion-item-sliding>
+
+    </ion-list>
+  </div>
 </ion-content>
