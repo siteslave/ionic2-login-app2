@@ -9,5 +9,17 @@
 
 
 <ion-content padding class="graph">
-  <chart [options]="options" class="chart"></chart>
+
+
+  <ion-slides [options]="slideOptions">
+
+  <ion-slide>
+    <chart [options]="options" class="chart"></chart>
+  </ion-slide>
+  <ion-slide>
+    <chart [options]="options2" class="chart"></chart>
+  </ion-slide>
+
+
+</ion-slides>
 </ion-content>
