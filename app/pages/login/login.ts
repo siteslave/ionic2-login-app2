@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, Storage, LocalStorage } from 'ionic-angular';
+
+import { Push } from 'ionic-native'
 
 import {Login} from '../../providers/login/login'
 import {TabsPage} from '../tabs/tabs'
@@ -15,7 +17,7 @@ interface HTTPResult {
   templateUrl: 'build/pages/login/login.html',
   providers: [Login, Configure]
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   username: string
   password: string
   localStorage: LocalStorage
@@ -32,6 +34,29 @@ export class LoginPage {
           this.navCtrl.setRoot(TabsPage)
         }
       });
+  }
+
+  ngOnInit() {
+    this.registerPush();
+  }
+
+  registerPush() {
+    var push = Push.init({
+      android: {
+        senderID: '896674945440'
+      },
+      ios: {
+        alert: 'true',
+        badge: true,
+        sound: 'false'
+      },
+      windows: {}
+    });
+
+    push.on('registration', res => {
+      console.log(res)
+    });
+
   }
 
   login() {
